@@ -7,12 +7,17 @@ const fetchPosts = async () => {
   if (!response.ok) {
     throw new Error('Failed to fetch posts');
   }
-  return response.json();
+    return response.json();
 };
 
 const PostsComponent = () => {
-  // Use the `useQuery` hook to fetch posts
-  const { data, error, isLoading, isError, refetch } = useQuery('posts', fetchPosts);
+  // Use the `useQuery` hook with additional configuration options
+  const { data, error, isLoading, isError, refetch } = useQuery('posts', fetchPosts, {
+    cacheTime: 10000, // Cache data for 10 seconds
+    staleTime: 5000, // Mark data as stale after 5 seconds
+    refetchOnWindowFocus: false, // Disable refetching when window regains focus
+    keepPreviousData: true, // Show previous data while fetching new data
+  });
 
   if (isLoading) {
     return <div>Loading...</div>;
