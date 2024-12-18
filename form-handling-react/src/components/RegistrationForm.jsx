@@ -4,11 +4,31 @@ const RegistrationForm = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({}); // State to manage errors
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!username) {
+      newErrors.username = 'Username is required';
+    }
+    if (!email) {
+      newErrors.email = 'Email is required';
+    }
+    if (!password) {
+      newErrors.password = 'Password is required';
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Handle form submission logic
-    console.log({ username, email, password });
+    if (validate()) {
+      console.log({ username, email, password }); // Process form data
+      alert('Registration successful!');
+    }
   };
 
   return (
@@ -18,27 +38,30 @@ const RegistrationForm = () => {
         <input
           type="text"
           id="username"
-          value={username} // Controlled input
-          onChange={(e) => setUsername(e.target.value)} // Update state
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
         />
+        {errors.username && <span style={{ color: 'red' }}>{errors.username}</span>}
       </div>
       <div>
         <label htmlFor="email">Email:</label>
         <input
           type="email"
           id="email"
-          value={email} // Controlled input
-          onChange={(e) => setEmail(e.target.value)} // Update state
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
+        {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
       </div>
       <div>
         <label htmlFor="password">Password:</label>
         <input
           type="password"
           id="password"
-          value={password} // Controlled input
-          onChange={(e) => setPassword(e.target.value)} // Update state
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
+        {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
       </div>
       <button type="submit">Register</button>
     </form>
