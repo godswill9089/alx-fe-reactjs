@@ -17,7 +17,7 @@ const Search = () => {
       const data = await fetchUserData(username);
       setUserData(data);
     } catch (err) {
-      setError("Looks like we can't find the user.");
+      setError("Looks like we can't find the user");
     } finally {
       setLoading(false);
     }
@@ -53,6 +53,7 @@ const Search = () => {
           <h2 className="text-center text-xl font-semibold mt-2">
             {userData.name || "No Name Provided"}
           </h2>
+          <p className="text-center text-gray-600">@{userData.login}</p>
           <p className="text-center">
             <a
               href={userData.html_url}
