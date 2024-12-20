@@ -1,13 +1,22 @@
-import axios from "axios";
+import axios from 'axios';
 
-const GITHUB_API_BASE_URL = "https://api.github.com";
+const BASE_URL = 'https://api.github.com';
 
-export const fetchAdvancedSearchResults = async (query) => {
+export const fetchAdvancedUsers = async (searchTerm, location = '', minRepos = 0) => {
   try {
-    const response = await axios.get(`${GITHUB_API_BASE_URL}/search/users?${query}`);
+    // Construct the query string for advanced search
+    let query = `${searchTerm}`;
+    if (location) {
+      query += `+location:${location}`;
+    }
+    if (minRepos > 0) {
+      query += `+repos:>=${minRepos}`;
+    }
+
+    const response = await axios.get(`${BASE_URL}/search/users?q=${query}`);
     return response.data;
   } catch (error) {
-    console.error("Error fetching advanced search results:", error);
+    console.error('Error fetching advanced users:', error);
     throw error;
   }
 };
